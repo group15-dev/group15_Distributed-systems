@@ -60,7 +60,7 @@ void startServer(int NODE_PORT){
 
     printf("Server listenig on port %d\n", NODE_PORT);
     
-    
+   while(1){ 
     if((new_socket = accept(server_fd, (struct sockaddr*)&servAddr, (socklen_t*)&servAddr))<0){
         perror("Accept Failed");
         exit(EXIT_FAILURE);
@@ -79,7 +79,7 @@ void startServer(int NODE_PORT){
     printf("ACK sent to client.\n");
 
     close(new_socket);
+    }
     close(server_fd);
-
 }
 

@@ -2,7 +2,8 @@
 #include "headers/server.h"
 
 
-int main(){
+
+int main(int argc, char *argv[]){
 /**
   * 
   
@@ -14,8 +15,24 @@ int main(){
         putc('H', file);
     }
  */
+    if (argc < 2){
+        fprintf(stderr, "Usage: %s <port1> [<port2> ...] \n", argv[0]);
+        return 1;
+    }
 
-    startServer();
+    for (int i = 1; i < argc; i++){
+        int port = atoi(argv[i]);
+
+        if (port <= 0){
+           fprintf(stderr, "Invalid port: %s\n", argv[i]);
+            continue;
+        }
+        startServer(port);
+    }
+
+    // :wq
+    //
+    // startServer(port);
     return(0);
 
 }

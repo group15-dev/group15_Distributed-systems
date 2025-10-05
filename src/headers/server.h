@@ -13,7 +13,7 @@
 #define MAX_CONNECTION 5
 #define BUFFER_SIZE 1024
 
-void startServer();
+void startServer(int NODE_PORT);
 void handle_client(int new_socket);
 
 //struct sockadrr_in server_address;

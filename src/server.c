@@ -22,7 +22,9 @@
   * receive data from clients
   */
 
-void startServer(){
+void startServer(int NODE_PORT){
+    
+
     int server_fd, new_socket;
     struct sockaddr_in servAddr;
     int opt = 1;
@@ -43,7 +45,7 @@ void startServer(){
 
     servAddr.sin_family = AF_INET;
     servAddr.sin_addr.s_addr = INADDR_ANY;
-    servAddr.sin_port = htons(PORT);
+    servAddr.sin_port = htons(NODE_PORT);
 
 
     if (bind(server_fd, (struct sockaddr *)&servAddr, sizeof(servAddr)) < 0){
@@ -56,7 +58,7 @@ void startServer(){
         exit(EXIT_FAILURE);
     };
 
-    printf("Server listenig on port %d\n", PORT);
+    printf("Server listenig on port %d\n", NODE_PORT);
     
     
     if((new_socket = accept(server_fd, (struct sockaddr*)&servAddr, (socklen_t*)&servAddr))<0){
@@ -80,5 +82,4 @@ void startServer(){
     close(server_fd);
 
 }
-
 

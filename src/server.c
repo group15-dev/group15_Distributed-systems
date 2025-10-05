@@ -23,8 +23,6 @@
   */
 
 void startServer(int NODE_PORT){
-    
-
     int server_fd, new_socket;
     struct sockaddr_in servAddr;
     int opt = 1;
@@ -35,18 +33,14 @@ void startServer(int NODE_PORT){
         exit(EXIT_FAILURE);
     }
     
-
     if(setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt) )){
         perror("sockopt failed");
         exit(EXIT_FAILURE);
     }
 
-    
-
     servAddr.sin_family = AF_INET;
     servAddr.sin_addr.s_addr = INADDR_ANY;
     servAddr.sin_port = htons(NODE_PORT);
-
 
     if (bind(server_fd, (struct sockaddr *)&servAddr, sizeof(servAddr)) < 0){
         perror("Bind Failed");
@@ -60,26 +54,37 @@ void startServer(int NODE_PORT){
 
     printf("Server listenig on port %d\n", NODE_PORT);
     
-   while(1){ 
-    if((new_socket = accept(server_fd, (struct sockaddr*)&servAddr, (socklen_t*)&servAddr))<0){
-        perror("Accept Failed");
-        exit(EXIT_FAILURE);
-    }
+    while(1){ 
+        if((new_socket = accept(server_fd, (struct sockaddr*)&servAddr, (socklen_t*)&servAddr))<0){
+            perror("Accept Failed");
+            exit(EXIT_FAILURE);
+        }
 
-    printf("Connection accepted from client.\n");
-    
+        printf("Connection accepted from client.\n");
+        
+        ssize_t valread = recv(new_socket, buffer, BUFFER_SIZE, 0);
+        if (valread > 0) {
+            printf("Client: %s\n", buffer);
+        }
 
-    ssize_t valread = recv(new_socket, buffer, BUFFER_SIZE, 0);
-    if (valread > 0) {
-        printf("Client: %s\n", buffer);
-    }
+        const char *hello = "ACK";
+        send(new_socket, hello, strlen(hello), 0);
+        printf("ACK sent to client.\n");
 
-    const char *hello = "ACK";
-    send(new_socket, hello, strlen(hello), 0);
-    printf("ACK sent to client.\n");
-
-    close(new_socket);
+        close(new_socket);
     }
     close(server_fd);
 }
 
+
+void connectPeer(int port){
+    int peer_fd;
+    
+    if (socket(AF_INET, SOCK_STREAM, 0)<0){
+        perror("Peer socket Failed...");
+        exit(EXIT_FAILURE);
+    }
+
+    struct sockaddr_in peerAddr = {AF_INET, htons(port), inet_addr("127.0.0.1")};
+    connect(peer_fd, (struct sockaddr *)&peerAddr, sizeof(peerAddr));
+}

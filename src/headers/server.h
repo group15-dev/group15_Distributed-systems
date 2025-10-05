@@ -14,9 +14,10 @@
 #define BUFFER_SIZE 1024
 
 void startServer(int NODE_PORT);
-void handle_client(int new_socket);
-
-//struct sockadrr_in server_address;
+// void handle_client(int new_socket);
+void connectPeer(int port);
+void sendPeer(const char *peer_ip, int peer_port, const char *message);
+//struct sockadrr_in server_address;.
 
 
 #endif

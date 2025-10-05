@@ -7,15 +7,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
-#define PORT 8080;
-#define MAX_CONNECTION 5;
-#define BUFFER_SIZE 1024;
+#define PORT 9001
+#define MAX_CONNECTION 5
+#define BUFFER_SIZE 1024
 
-int start_server();
+void startServer();
 void handle_client(int new_socket);
 
-struct sockadrr_in server_address;
+//struct sockadrr_in server_address;
 
 
 #endif

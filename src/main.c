@@ -1,21 +1,11 @@
 #include <stdio.h>
+#include "headers/server.h"
 
-// file set up
-//
-//----------------
-//create node
-//----------------
+
+int main(int argc, char *argv[]){
 /**
-  * client conncetiomn
-  * route message btw node
-  * maintain session
-  * sync message history
-  */
-
-
-
-
-int main(){
+  * 
+  
     putchar('H');
     
     FILE *file = fopen("output.txt", "w");
@@ -23,7 +13,9 @@ int main(){
     if (file != NULL){
         putc('H', file);
     }
+ */
 
+    startServer();
     return(0);
 
 }

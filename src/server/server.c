@@ -5,6 +5,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <string.h>
+#include <arpa/inet.h>
 
 /**
   * create a socket file descriptor
@@ -80,11 +81,20 @@ void startServer(int NODE_PORT){
 void connectPeer(int port){
     int peer_fd;
     
-    if (socket(AF_INET, SOCK_STREAM, 0)<0){
+    if ((peer_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0){
         perror("Peer socket Failed...");
         exit(EXIT_FAILURE);
     }
 
-    struct sockaddr_in peerAddr = {AF_INET, htons(port), inet_addr("127.0.0.1")};
-    connect(peer_fd, (struct sockaddr *)&peerAddr, sizeof(peerAddr));
+    struct sockaddr_in peerAddr;
+    peerAddr.sin_family = AF_INET;
+    peerAddr.sin_port = htons(port);
+    peerAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if(connect(peer_fd, (struct sockaddr *)&peerAddr, sizeof(peerAddr)) < 0){
+        perror("Peer connection Failed...");
+        exit(EXIT_FAILURE);
+    }
+    printf("Connected to peer on port %d\n", port);
+    close(peer_fd);
 }

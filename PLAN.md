@@ -8,8 +8,7 @@
 
  - comms protocol - TCP socket(not web socket)
 
- I'm thinking of using C because you people ran away
-
+ thought of using C because of it's efficiency, portability, and low-level control.
 
 - client - xml for ui
 
